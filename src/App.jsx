@@ -5,8 +5,10 @@ import store from "./store";
 
 export function App() {
   return (
-    <Provider store={store}>
-      <AppRoutes />
-    </Provider>
+    <React.StrictMode>
+      <Provider store={store}>
+        <AppRoutes />
+      </Provider>
+    </React.StrictMode>
   );
 }
