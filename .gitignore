@@ -19,7 +19,6 @@ __snapshots__
 
 # IDE
 .idea
-.vscode
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -37,4 +36,5 @@ node_modules
 
 # Ignore build files
 public
-dist
+dist/*
+!index.html
