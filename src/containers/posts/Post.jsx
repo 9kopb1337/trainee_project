@@ -8,25 +8,21 @@ async function fetchComments(postId) {
 }
 
 export const Post = () => {
-  const params = useParams();
-  const postId = params.id;
   const [comments, setComments] = useState([]);
+  const postId = useParams().id;
+
   useEffect(() => {
     fetchComments(postId).then(setComments);
   }, []);
 
   return (
-    <Container className="posts">
+    <Container className="comments">
       <div>
         {comments.map((comment, index) => (
-          <div className="post" key={index}>
-            <div className="post__name">
-              Name: {comment.name}
-              <div className="post__email">
-                Email: {comment.email}
-                <div className="post__body">Message: {comment.body}</div>
-              </div>
-            </div>
+          <div className="comment" key={index}>
+            <div className="comment__name">Name: {comment.name}</div>
+            <div className="comment__email">Email: {comment.email}</div>
+            <div className="comment__body">Message: {comment.body}</div>
           </div>
         ))}
       </div>

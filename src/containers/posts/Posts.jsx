@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
-import Nav from "react-bootstrap/Nav";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { selectUserId } from "../../slices/users";
 
-async function fetchPost(postId) {
-  const response = await fetch(`https://jsonplaceholder.typicode.com/users/${postId}/posts`);
+async function fetchPosts(userId) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}/posts`);
   return await response.json();
 }
 
 export const Posts = () => {
-  const [posts, setPost] = useState([]);
+  const userId = useSelector(selectUserId);
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    fetchPost(1).then(setPost);
-  }, []);
+    fetchPosts(userId).then(setPosts);
+  }, [userId]);
 
   return (
     <Container className="posts">
       <div>
-        {posts.map((post, index) => (
-          <div className="post" key={index}>
-            {post.id}. {post.title}. {post.body}
-            <Nav activeKey="/">
-              <Nav.Item>
-                <Nav.Link as={Link} to={`/posts/${post.id}`}>
-                  Press
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
+        {posts.map((post) => (
+          <div className="post" key={post.id}>
+            <h3>{post.title}</h3>
+            <p>
+              {post.body}... <Link to={`/posts/${post.id}`}>Comments</Link>
+            </p>
           </div>
         ))}
       </div>
