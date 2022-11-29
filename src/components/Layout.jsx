@@ -22,13 +22,8 @@ export const Layout = () => {
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link as={Link} to="/posts">
+                  <Nav.Link as={Link} to="/Posts">
                     Posts
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link as={Link} to="/todos">
-                    Todos
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
