@@ -3,6 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
+import { UserInfo } from "./UserInfo";
 
 export const Layout = () => {
   return (
@@ -30,6 +31,9 @@ export const Layout = () => {
                   <Nav.Link as={Link} to="/albums">
                     Albums
                   </Nav.Link>
+                </Nav.Item>
+                <Nav.Item variant="button">
+                  <UserInfo />
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
