@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { dragStart, drop, fetchTodosByUserId } from "../../slices/todos";
+import { useDispatch, useSelector } from "react-redux";
+import { dragStart, drop, fetchTodosByUserId, selectTodos } from "../../slices/todos";
 import store from "../../store";
 
-export const Todos = ({ todos = [{ title: "chtoto", completed: true, id: 2 }] }) => {
+export const Todos = () => {
   const dispatch = useDispatch();
-  //const dispatch = store.dispatch;
+  const todos = useSelector(selectTodos);
+
   useEffect(() => {
-    console.log(1, fetchTodosByUserId(1));
-    dispatch(dragStart(todos[0]))//.then((x) => console.log(6, x));
+    dispatch(fetchTodosByUserId(1));
   }, []);
 
   const renderColumn = (completed) => {
@@ -20,7 +20,7 @@ export const Todos = ({ todos = [{ title: "chtoto", completed: true, id: 2 }] })
         className={`todos-column ${columnStatusClassName}`}
         onDrop={(e) => {
           e.preventDefault();
-          dispatch(drop(e.target.className));
+          dispatch(drop(completed));
         }}
         onDragOver={(e) => e.preventDefault()}
       >
@@ -32,7 +32,7 @@ export const Todos = ({ todos = [{ title: "chtoto", completed: true, id: 2 }] })
         ))}
       </div>
     );
-  }
+  };
   return (
     <div className="todos">
       {renderColumn(false)}

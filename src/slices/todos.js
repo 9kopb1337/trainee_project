@@ -6,48 +6,29 @@ export const fetchTodosByUserId = createAsyncThunk("fetch", async (userId, thunk
 });
 
 const todosSlice = createSlice({
-  name: "todo",
+  name: "todos",
   initialState: {
     todos: [],
     currentTodo: null,
     fetchPending: false
   },
   reducers: {
-    dragStart: (state, action) => {
-      console.log(4, state);
-      return { ...state, currentTodo: action.payload };
-    },
-    drop: (state, action) => {
-      console.log(5, state);
-      let currentElement = document.querySelector(`[class="${action.payload}"]`);
-      while (!currentElement.classList.contains("todos-column")) {
-        currentElement = currentElement.parentElement;
+    dragStart: (state, { payload: currentTodo }) => ({ ...state, currentTodo }),
+    drop: (state, { payload: completed }) => {
+      if (state.currentTodo.completed === completed) {
+        return { ...state, currentTodo: null };
       }
-      const completed = currentElement.classList.contains("todos-column__completed");
-
-      console.log(state.currentTodo, state);
-      if (state.currentTodo.completed !== completed) {
-        const updatedTodo = { ...state.currentTodo, completed };
-        return {
-          ...state,
-          currentTodo: null,
-          todos: state.todos.filter((todo) => todo.id !== state.currentTodo.id).concat([updatedTodo])
-        };
-      }
-      return { ...state, currentTodo: null };
+      const updatedTodo = { ...state.currentTodo, completed };
+      const todos = state.todos.filter((todo) => todo.id !== state.currentTodo.id).concat([updatedTodo]);
+      return { ...state, currentTodo: null, todos };
     }
   },
   extraReducers: {
-    [fetchTodosByUserId.pending]: (state) => {
-      console.log(2, state);
-      return { ...state, fetchPending: true };
-    },
-    [fetchTodosByUserId.fulfilled]: (state, action) => {
-      console.log(3, state, action);
-      return { ...state, fetchPending: false, todos: action.payload };
-    }
+    [fetchTodosByUserId.pending]: (state) => ({ ...state, fetchPending: true }),
+    [fetchTodosByUserId.fulfilled]: (state, { payload: todos }) => ({ ...state, fetchPending: false, todos })
   }
 });
 
+export const selectTodos = (state) => state.todos.todos;
 export const { dragStart, drop } = todosSlice.actions;
 export default todosSlice.reducer;
